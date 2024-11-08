@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { SocketContextType, useSocket } from "../context/socketContext";
 import peer from "../service/peer";
-import { Stream } from "stream";
 import ReactPlayer from "react-player";
 
 export default function RoomPage() {

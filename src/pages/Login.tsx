@@ -24,8 +24,8 @@ export default function Login() {
                 type="email"
                 placeholder="Email"
                 name="email"
-                value={"santu@gmail.com"}
-                width="200px"
+                value={""}
+                width="300px"
                 onChange={() => {}}
               />
             </div>
@@ -35,16 +35,25 @@ export default function Login() {
                 placeholder="Password"
                 name="email"
                 value={""}
-                width="200px"
+                width="300px"
                 onChange={() => {}}
               />
             </div>
             <div className={styles.row}>
               <Button type="submit" title="Login" width="100%" />
             </div>
+            <div className={styles.divider}>
+              <p>or</p>
+            </div>
             <div className={styles.socialContainer}>
+              <div className={styles.socialDiv}>
                 <FcGoogle size={25} cursor={"pointer"} />
+                <p>Google</p>
+              </div>
+              <div className={styles.socialDiv}>
                 <ImFacebook2 size={25} color="blue" cursor={"pointer"} />
+                <p>Facebook</p>
+              </div>
             </div>
           </div>
         </div>

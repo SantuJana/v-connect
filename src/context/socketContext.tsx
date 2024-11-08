@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { io, Socket } from "socket.io-client";
 
 export interface SocketContextType {
