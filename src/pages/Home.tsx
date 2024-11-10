@@ -19,7 +19,7 @@ export default function Home() {
 
   const handleRoomJoin = useCallback(
     (data: { email: string; room: number }) => {
-      const { email, room } = data;
+      const { room } = data;
       navigate(`/room/${room}`);
     },
     [navigate]
@@ -31,7 +31,7 @@ export default function Home() {
     return () => {
       socket?.off("room:join", handleRoomJoin);
     };
-  }, [socket]);
+  }, [socket, handleRoomJoin]);
 
   const handleOnChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
