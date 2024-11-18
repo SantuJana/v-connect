@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { ImFacebook2 } from "react-icons/im";
 import axios, { AxiosError } from "axios";
 import { apiUrl } from "../constants";
-import { useNavigate, redirect } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import {
   NotificationContext,
   useNotification,
