@@ -21,7 +21,6 @@ type FormData = {
 
 export default function Login() {
   const { failed, warn } = useNotification() as NotificationContext;
-  const navigate = useNavigate();
   const initialForm = {
     email: "",
     password: "",
