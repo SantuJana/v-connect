@@ -6,9 +6,13 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { FcGoogle } from "react-icons/fc";
 import { ImFacebook2 } from "react-icons/im";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { apiUrl } from "../constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
+import {
+  NotificationContext,
+  useNotification,
+} from "../context/notificationContext";
 
 type FormData = {
   email: string;
@@ -16,6 +20,7 @@ type FormData = {
 };
 
 export default function Login() {
+  const { failed, warn } = useNotification() as NotificationContext;
   const navigate = useNavigate();
   const initialForm = {
     email: "",
@@ -30,6 +35,10 @@ export default function Login() {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formData.email || !formData.password) {
+      warn("please enter email and password");
+      return;
+    }
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, formData, {
         headers: {
@@ -38,10 +47,12 @@ export default function Login() {
       });
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        navigate("/landing");
+        redirect("/landing");
       }
     } catch (error) {
-      console.log("Login Error: ", error);
+      const axiosError = error as AxiosError;
+      // @ts-ignore
+      failed(axiosError?.response?.data?.msg);
     }
   };
 
@@ -49,7 +60,11 @@ export default function Login() {
     <div className={styles.body}>
       <div className={styles.container}>
         <div className={styles.leftSection}>
-          <img className={styles.bannerImage} src={BannerLogo} alt="Banner" />
+          <img
+            className="h-16 w-auto object-cover"
+            src={BannerLogo}
+            alt="Banner"
+          />
         </div>
         <div className={styles.rightSection}>
           <div>
@@ -77,8 +92,13 @@ export default function Login() {
                   onChange={handleFormDataChange}
                 />
               </div>
-              <div className={styles.row}>
+              <div className={`${styles.row} mt-2 mb-0`}>
                 <Button type="submit" title="Login" width="100%" />
+              </div>
+              <div>
+                <p className="inline-block text-base cursor-pointer text-purple-600 hover:text-purple-700 hover:underline underline-offset-4">
+                  Forgot password?
+                </p>
               </div>
               <div className={styles.divider}>
                 <p>or</p>
