@@ -56,22 +56,25 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.body}>
-      <div className={styles.container}>
-        <div className={styles.leftSection}>
+    <div className="relative h-screen w-screen bg-violet-100">
+      <div
+        className="absolute w-11/13 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl overflow-hidden flex flex-col sm:flex-row justify-between shadow-xl min-h-96"
+        // style={{ width: "800px" }}
+      >
+        <div className="hidden w-1/2 sm:flex justify-center items-center overflow-hidden p-2.5 bg-slate-300">
           <img
             className="h-16 w-auto object-cover"
             src={BannerLogo}
             alt="Banner"
           />
         </div>
-        <div className={styles.rightSection}>
+        <div className="w-full sm:w-1/2 flex flex-col justify-center items-center overflow-hidden p-5 bg-white">
           <div>
-            <img className={styles.logo} src={VerticalLogo} alt="Logo" />
+            <img className="h-15" src={VerticalLogo} alt="Logo" />
           </div>
           <form onSubmit={handleFormSubmit} method="post">
-            <div className={styles.form}>
-              <div className={styles.row}>
+            <div className="mt-6 flex flex-col">
+              <div className="mb-3.5">
                 <Input
                   type="email"
                   placeholder="Email"
@@ -81,7 +84,7 @@ export default function Login() {
                   onChange={handleFormDataChange}
                 />
               </div>
-              <div className={styles.row}>
+              <div className="mb-3.5">
                 <Input
                   type="password"
                   placeholder="Password"
@@ -91,7 +94,7 @@ export default function Login() {
                   onChange={handleFormDataChange}
                 />
               </div>
-              <div className={`${styles.row} mt-2 mb-0`}>
+              <div className={`mb-3.5 mt-2 mb-0`}>
                 <Button type="submit" title="Login" width="100%" />
               </div>
               <div>
