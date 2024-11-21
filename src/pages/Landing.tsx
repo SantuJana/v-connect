@@ -3,6 +3,7 @@ import Logo from "../assets/icon.png";
 import Call from "../assets/call.png";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import { ReactTyped } from "react-typed";
 
 export default function Landing() {
   return (
@@ -46,7 +47,7 @@ export default function Landing() {
         </div>
         <div className="mt-5 sm:mt-16">
           <h1 className="text-center text-3xl sm:text-5xl font-bold bg-gradient-to-r from-violet-600 to-violet-900 text-transparent bg-clip-text">
-            Connect with your lovable one in Any Time
+            Connect with your lovable one in <ReactTyped strings={["Any Time", "Any One"]} typeSpeed={100} backSpeed={100} backDelay={1000} loop/>
           </h1>
         </div>
         <div className="mt-4 flex items-center flex-col">
