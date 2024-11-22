@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { ImFacebook2 } from "react-icons/im";
 import axios, { AxiosError } from "axios";
 import { apiUrl } from "../constants";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   NotificationContext,
   useNotification,
@@ -20,6 +20,7 @@ type FormData = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
   const { failed, warn } = useNotification() as NotificationContext;
   const initialForm = {
     email: "",
@@ -46,7 +47,7 @@ export default function Login() {
       });
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        redirect("/landing");
+        navigate("/landing", {replace: true});
       }
     } catch (error) {
       const axiosError = error as AxiosError;
