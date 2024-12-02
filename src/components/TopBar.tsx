@@ -2,11 +2,15 @@ import React from "react";
 import { IoEllipsisVertical, IoNotificationsOutline } from "react-icons/io5";
 import { HiMenuAlt2 } from "react-icons/hi";
 
-export default function TopBar() {
+interface TopBarProps {
+  toggleDrawer: () => void;
+}
+
+export default function TopBar({toggleDrawer}:TopBarProps) {
   return (
     <div className="h-14 sm:h-16 w-full px-3 sm:px-4 shadow-md flex justify-between items-center">
       <div className="flex items-center gap-2">
-        <HiMenuAlt2 className="text-xl flex sm:hidden text-violet-800"/>
+        <HiMenuAlt2 onClick={toggleDrawer} className="text-xl flex sm:hidden text-violet-800"/>
         <h3 className="text-violet-700 font-medium sm:text-xl text-pretty">
           Hi, Santu Jana
         </h3>
