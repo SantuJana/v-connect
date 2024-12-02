@@ -10,7 +10,7 @@ import Tooltip from "./Tooltip";
 
 export default function SideBar() {
   return (
-    <div className="h-full w-20 shrink-0 py-5 bg-white flex flex-col justify-between items-center shadow-lg overflow-hidden">
+    <div className="h-full w-20 shrink-0 py-5 bg-white hidden sm:flex flex-col justify-between items-center shadow-lg overflow-hidden">
       <figure>
         <img src={Logo} alt="logo" className="w-12 h-11" />
       </figure>

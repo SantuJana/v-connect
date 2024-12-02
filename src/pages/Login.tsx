@@ -50,9 +50,10 @@ export default function Login() {
         navigate("/landing", {replace: true});
       }
     } catch (error) {
+      console.log(error)
       const axiosError = error as AxiosError;
       // @ts-ignore
-      failed(axiosError?.response?.data?.msg);
+      failed(axiosError.message);
     }
   };
 
