@@ -6,24 +6,37 @@ import {
   IoChatbubblesOutline,
   IoHeart,
   IoPersonCircleOutline,
-  IoClose 
+  IoClose,
 } from "react-icons/io5";
 
 interface DrawerProps {
-    visibility: boolean;
-    toggle: () => void;
+  visibility: boolean;
+  toggle: () => void;
 }
 
-export default function Drawer({visibility, toggle}:DrawerProps) {
+export default function Drawer({ visibility, toggle }: DrawerProps) {
   return (
-    <div className={`absolute top-0 bottom-0 right-0 left-0 bg-slate-300 z-10  transition-all duration-500 ease-in-out ${visibility ? "bg-opacity-0 backdrop-blur-none hidden" : "bg-opacity-10 backdrop-blur-sm"}`}>
-      <div className={`absolute top-0 bottom-0 left-0 w-72 bg-slate-100 shadow-md flex flex-col transition-transform duration-500 ease-in-out ${visibility ? "-translate-x-72" : "translate-x-0"}`}>
-        <div onClick={toggle} className="relative h-36 w-full bg-violet-300 flex flex-col justify-center items-center py-5 px-2 ">
-            <IoClose size={25} className="absolute top-2 right-2 text-violet-700 transition-transform duration-500 ease-in-out hover:rotate-90" />
+    <>
+      <div className={`absolute right-0 bottom-0 top-0 left-0 bg-slate-50 z-10 bg-opacity-5 backdrop-blur-sm transition-all ease-in-out duration-200 ${visibility ? "flex" : "hidden"}`} />
+      <div
+        className={`absolute top-0 bottom-0 left-0 w-72 bg-slate-100 shadow-md flex flex-col transition-transform duration-200 ease-in-out z-10 ${
+          visibility ? "translate-x-0" : "-translate-x-72"
+        }`}
+      >
+        <div
+          onClick={toggle}
+          className="relative h-36 w-full bg-violet-300 flex flex-col justify-center items-center py-5 px-2 "
+        >
+          <IoClose
+            size={25}
+            className="absolute top-2 right-2 text-violet-700 transition-transform duration-200 ease-in-out hover:rotate-90"
+          />
           <figure className="ring-2 ring-offset-2 ring-violet-400 rounded-full overflow-hidden h-12 w-12 flex justify-center items-center">
             <img src={Avatar} className="" alt="" />
           </figure>
-          <h3 className="text-violet-700 font-semibold ">Santu Jana {visibility}</h3>
+          <h3 className="text-violet-700 font-semibold ">
+            Santu Jana
+          </h3>
         </div>
         <div className="flex-1 px-3 pt-5">
           <ul className="flex flex-col gap-2">
@@ -40,7 +53,7 @@ export default function Drawer({visibility, toggle}:DrawerProps) {
               <p className="font-medium">Messages</p>
             </li>
             <li className="flex items-center gap-2 p-2 text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg">
-              <IoSettingsOutline size={20} className="text-slate-600"/>
+              <IoSettingsOutline size={20} className="text-slate-600" />
               <p className="font-medium">Settings</p>
             </li>
             <li className="flex items-center gap-2 p-2 text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg">
@@ -54,6 +67,6 @@ export default function Drawer({visibility, toggle}:DrawerProps) {
           <span className="text-red-700">&#10084;</span>
         </div>
       </div>
-    </div>
+    </>
   );
 }
