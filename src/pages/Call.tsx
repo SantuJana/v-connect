@@ -8,7 +8,7 @@ interface FormData {
   room: number;
 }
 
-export default function Home() {
+export default function Call() {
   const initialValue: FormData = {
     email: "",
     room: 0,
@@ -19,6 +19,7 @@ export default function Home() {
 
   const handleRoomJoin = useCallback(
     (data: { email: string; room: number }) => {
+      console.log("-----", data)
       const { room } = data;
       navigate(`/room/${room}`);
     },

@@ -47,7 +47,14 @@ export default function Landing() {
         </div>
         <div className="mt-5 sm:mt-16">
           <h1 className="text-center text-3xl sm:text-5xl font-bold bg-gradient-to-r from-violet-600 to-violet-900 text-transparent bg-clip-text">
-            Connect with your lovable one in <ReactTyped strings={["Any Time", "Any One"]} typeSpeed={100} backSpeed={100} backDelay={1000} loop/>
+            Connect with your lovable one in{" "}
+            <ReactTyped
+              strings={["Any Time", "Any One"]}
+              typeSpeed={100}
+              backSpeed={100}
+              backDelay={1000}
+              loop
+            />
           </h1>
         </div>
         <div className="mt-4 flex items-center flex-col">

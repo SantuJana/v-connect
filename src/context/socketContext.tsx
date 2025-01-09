@@ -10,11 +10,23 @@ export const SocketContext = createContext<SocketContextType | undefined>(
   undefined
 );
 
-export const SocketProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
-    const socket = useMemo(() => io(apiBaseUrl), []);
+export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const socket = useMemo(() => io(apiBaseUrl), []);
 
-    return <SocketContext.Provider value={{socket}} >{children}</SocketContext.Provider>
-}
+  // useEffect(() => {
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, []);
+
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
 
 export const useSocket = () => {
   return useContext(SocketContext);
