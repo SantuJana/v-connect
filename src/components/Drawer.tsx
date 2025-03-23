@@ -1,5 +1,5 @@
 import React from "react";
-import Avatar from "../assets/avatar-image.png";
+import Avatar from "../assets/icon.png";
 import {
   IoHome,
   IoSettingsOutline,
@@ -9,6 +9,9 @@ import {
   IoClose,
 } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { AppContext, useApp } from "../context/appContext";
+import useUserStore from "../store/user.store";
+import { imagekitEndpoint } from "../constants";
 
 interface DrawerProps {
   visibility: boolean;
@@ -16,6 +19,9 @@ interface DrawerProps {
 }
 
 export default function Drawer({ visibility, toggle }: DrawerProps) {
+  const { toggleDrawer } = useApp() as AppContext;
+  const { user } = useUserStore();
+
   return (
     <>
       <div
@@ -38,41 +44,87 @@ export default function Drawer({ visibility, toggle }: DrawerProps) {
           />
           <figure className="ring-2 ring-offset-2 ring-violet-400 rounded-full overflow-hidden h-16 w-16 flex justify-center items-center">
             <img
-              src={Avatar}
+              src={user?.image ? imagekitEndpoint + user?.image + "?tr=h-200,w-200" : Avatar}
               className=""
               alt=""
               height={"100%"}
               width={"100%"}
             />
           </figure>
-          <h3 className="text-violet-700 font-semibold ">Santu Jana</h3>
+          <h3 className="text-violet-700 font-semibold mt-2">{user?.name || "Hello!"}</h3>
         </div>
         <div className="flex-1 px-3 pt-5">
           <ul className="flex flex-col gap-2">
-            <NavLink to={"/landing"}>
-              <li className="flex items-center gap-2 p-2 rounded-lg text-violet-200 bg-violet-700">
-                <IoHome size={20} />
-                <p className="font-medium">Home</p>
-              </li>
+            <NavLink
+              to={"/landing"}
+              className={({ isActive }) =>
+                `flex items-center gap-2 p-2 ${
+                  isActive
+                    ? "text-violet-200 bg-violet-700 rounded-lg"
+                    : "text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg"
+                }`
+              }
+              onClick={toggleDrawer}
+            >
+              <IoHome size={20} />
+              <p className="font-medium">Home</p>
             </NavLink>
-            <NavLink to={"/favorites"}>
-              <li className="flex items-center gap-2 p-2 text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg">
-                <IoHeart size={20} className="fill-red-600" />
-                <p className="font-medium">Favorites</p>
-              </li>
+            <NavLink
+              to={"/favorites"}
+              className={({ isActive }) =>
+                `flex items-center gap-2 p-2 ${
+                  isActive
+                    ? "text-violet-200 bg-violet-700 rounded-lg"
+                    : "text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg"
+                }`
+              }
+              onClick={toggleDrawer}
+            >
+              <IoHeart size={20} className="fill-red-600" />
+              <p className="font-medium">Favorites</p>
             </NavLink>
-            <li className="flex items-center gap-2 p-2 text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg">
+            <NavLink
+              to={"/chats"}
+              className={({ isActive }) =>
+                `flex items-center gap-2 p-2 ${
+                  isActive
+                    ? "text-violet-200 bg-violet-700 rounded-lg"
+                    : "text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg"
+                }`
+              }
+              onClick={toggleDrawer}
+            >
               <IoChatbubblesOutline size={20} className="text-sky-600 " />
               <p className="font-medium">Messages</p>
-            </li>
-            <li className="flex items-center gap-2 p-2 text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg">
+            </NavLink>
+            <NavLink
+              to={"/settings"}
+              className={({ isActive }) =>
+                `flex items-center gap-2 p-2 ${
+                  isActive
+                    ? "text-violet-200 bg-violet-700 rounded-lg"
+                    : "text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg"
+                }`
+              }
+              onClick={toggleDrawer}
+            >
               <IoSettingsOutline size={20} className="text-slate-600" />
               <p className="font-medium">Settings</p>
-            </li>
-            <li className="flex items-center gap-2 p-2 text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg">
+            </NavLink>
+            <NavLink
+              to={"/profile"}
+              className={({ isActive }) =>
+                `flex items-center gap-2 p-2 ${
+                  isActive
+                    ? "text-violet-200 bg-violet-700 rounded-lg"
+                    : "text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg"
+                }`
+              }
+              onClick={toggleDrawer}
+            >
               <IoPersonCircleOutline size={20} className="text-blue-700" />
               <p className="font-medium">Profile</p>
-            </li>
+            </NavLink>
           </ul>
         </div>
         <div className="text-center p-2 text-violet-700">

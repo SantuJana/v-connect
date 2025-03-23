@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import Favorites from "./pages/Favorites";
 import Chats from "./pages/Chats";
 import Register from "./pages/Register";
+import VideoCall from "./pages/VideoCall";
 // import Call from "./pages/Call";
 
 function App() {
@@ -20,14 +21,15 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="" element={<Landing />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="" element={<Landing />} />
           <Route path="landing" element={<Home />} />
           <Route path="room/:roomId" element={<RoomPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/chats" element={<Chats />} />
+          <Route path="/video-call" element={<VideoCall />} />
         </Route>
       </Routes>
     </NotificationProvider>
