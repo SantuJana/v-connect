@@ -48,9 +48,9 @@ export default function RoomPage() {
       const { from, ans } = data;
       console.log("//// Call Accepted /////", from, ans);
       await peer.setLocalDescription(ans);
-      sendStream();
+      // sendStream();
     },
-    [sendStream]
+    []
   );
 
   const handleNegoNeed = useCallback(
@@ -133,22 +133,22 @@ const handleNegoFinal = useCallback(
       {myStream && <button onClick={sendStream}>Send Stream</button>}
       {remoteSocketId && <button onClick={handleCall}>Call</button>}
       {myStream && (
-        <>
+        <div className="bg-red-200">
           <h1>My Stream</h1>
           <ReactPlayer playing muted height={100} width={200} url={myStream} />
-        </>
+        </div>
       )}
       {remoteStream && (
-        <>
+        <div className="bg-green-300">
           <h1>Remote Stream</h1>
           <ReactPlayer
             playing
-            muted
+            // muted
             height={100}
             width={200}
             url={remoteStream}
           />
-        </>
+        </div>
       )}
     </>
   );

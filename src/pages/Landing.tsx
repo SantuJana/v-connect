@@ -30,7 +30,7 @@ export default function Landing() {
               </Link>
               <div className="flex items-center gap-6">
                 <Link
-                  to={"/join"}
+                  to={"/register"}
                   className="ring-1 text-violet-600 ring-violet-600 px-2 py-1 rounded hover:border-none hover:bg-violet-700 hover:text-white"
                 >
                   Join
