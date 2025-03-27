@@ -2,9 +2,9 @@ import React from "react";
 // import Avatar from "../assets/avatar-image.png";
 import Icon from "../assets/icon.png";
 import {
-  IoCallOutline,
+  // IoCallOutline,
   IoVideocamOutline,
-  IoChatboxOutline,
+  // IoChatboxOutline,
   IoHeart,
   IoHeartOutline,
 } from "react-icons/io5";
