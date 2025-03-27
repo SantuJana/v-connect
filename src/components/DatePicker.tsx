@@ -17,17 +17,17 @@ export default function DatePicker({
   onChange,
 }: InputProps) {
   const dateInputRef = useRef<HTMLInputElement>(null);
-  const textInputRef = useRef<HTMLInputElement>(null);
+  // const textInputRef = useRef<HTMLInputElement>(null);
 
-  const handleInputFocus = () => {
-    dateInputRef.current?.showPicker();
-    dateInputRef.current?.click();
-  };
+  // const handleInputFocus = () => {
+  //   dateInputRef.current?.showPicker();
+  //   dateInputRef.current?.click();
+  // };
 
-  const handleDateInputFocusOut = () => {
-    console.log("bjk");
-    textInputRef.current?.blur();
-  };
+  // const handleDateInputFocusOut = () => {
+  //   console.log("bjk");
+  //   textInputRef.current?.blur();
+  // };
 
   const handleClick = () => {
     dateInputRef.current?.showPicker();
