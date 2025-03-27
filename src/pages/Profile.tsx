@@ -8,6 +8,9 @@ import {
 } from "../context/notificationContext";
 import { imagekitEndpoint } from "../constants";
 import moment from "moment";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import DatePicker from "../components/DatePicker";
 
 export default function Profile() {
   const { user, setUser } = useUserStore();
@@ -21,6 +24,7 @@ export default function Profile() {
   });
   const imageInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,6 +52,7 @@ export default function Profile() {
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
+      setIsLoading(true);
       try {
         const response = await api.post("/user/update", formData);
         if (response?.status === 200) {
@@ -58,13 +63,14 @@ export default function Profile() {
             email: formData.email,
             dob: formData.dob,
             city: formData.city,
-            image: response.data.data?.image,
+            image: response.data.data?.image || user?.image,
           });
           success(response?.data?.msg);
         }
       } catch (error) {
         failed("Failed to update.");
       }
+      setIsLoading(false);
     },
     [formData, failed, success, setUser, user]
   );
@@ -84,7 +90,11 @@ export default function Profile() {
             />
             <img
               ref={imageRef}
-              src={user?.image ? `${imagekitEndpoint}${user.image}?tr=h-200,w-200` : Avatar}
+              src={
+                user?.image
+                  ? `${imagekitEndpoint}${user.image}?tr=h-200,w-200`
+                  : Avatar
+              }
               alt=""
               className="w-full h-full object-contain"
             />
@@ -101,51 +111,40 @@ export default function Profile() {
         </div>
         <div className="mt-8 flex flex-col mx-auto gap-3 w-5/6 md:w-96">
           <div className="w-full">
-            <input
-              type="text"
+            <Input
               name="name"
               onChange={handleChange}
-              placeholder="Enter name"
               value={formData?.name || ""}
-              className="w-full px-2 py-1 rounded-lg border-violet-300 border-2 focus:outline-none"
+              placeholder="Enter name"
+              type="text"
+              width="100%"
             />
           </div>
           <div className="w-full">
-            <input
-              type="email"
+            <Input
               name="email"
               onChange={handleChange}
-              placeholder="Enter email"
               value={formData?.email || ""}
-              className="w-full px-2 py-1 rounded-lg border-violet-300 border-2 focus:outline-none"
+              placeholder="Enter email"
+              type="email"
+              width="100%"
             />
           </div>
           <div className="w-full">
-            <input
-              type="date"
-              name="dob"
-              onChange={handleChange}
-              value={formData?.dob ? moment(formData?.dob).format("YYYYY-MM-DD") : ""}
-              placeholder="Enter dob"
-              className="w-full px-2 py-1 rounded-lg border-violet-300 border-2 focus:outline-none"
-            />
+            <DatePicker name="dob" onChange={handleChange} value={formData?.dob ? moment(formData?.dob).format("YYYY-MM-DD") : ""} placeholder="Select date of birth" width="100%" />
           </div>
           <div className="w-full">
-            <input
-              type="text"
+            <Input
               name="city"
-              placeholder="Enter city"
               onChange={handleChange}
               value={formData?.city || ""}
-              className="w-full px-2 py-1 rounded-lg border-violet-300 border-2 focus:outline-none"
+              placeholder="Enter city"
+              type="text"
+              width="100%"
             />
           </div>
-          <div className="w-full text-center">
-            <input
-              type="submit"
-              value="Save"
-              className="w-auto mt-4 px-10 py-1 rounded-lg border-violet-700 bg-violet-600 border-2 text-violet-200 text-lg cursor-pointer"
-            />
+          <div className="w-full flex justify-center">
+            <Button title="Save" loading={isLoading} type="submit" />
           </div>
         </div>
       </form>

@@ -12,6 +12,10 @@ import useUserStore from "../store/user.store";
 import CallDialog from "../components/CallDialog";
 import CallerDialog from "../components/CallerDialog";
 import { useNavigate } from "react-router-dom";
+//@ts-ignore
+import CallerTone from "../assets/caller.mp3";
+//@ts-ignore
+import RingTone from "../assets/ring.mp3";
 
 export interface CallContextInterface {
   handleVideoClick: (user: any) => void;
@@ -27,13 +31,39 @@ export const CallProvider: React.FC<{ children: React.ReactNode }> = ({
   const [showCallerDialog, setShowCallerDialog] = useState<any | null>(null);
   const [callStatus, setCallStatus] = useState<string>("");
   const callTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const callerTuneRef = useRef<HTMLAudioElement | null>(null);
-  const ringTuneRef = useRef<HTMLAudioElement | null>(null);
   const selfSocketRef = useRef<string | null>(null);
   const guestSocketRef = useRef<string | null>(null);
   const { socket } = useSocket() as SocketContextType;
   const { failed } = useNotification() as NotificationContext;
   const { user: self } = useUserStore();
+  const ringToneRef = useRef<HTMLAudioElement | null>(null);
+  const callerToneRef = useRef<HTMLAudioElement | null>(null);
+
+  const playCallerTone = useCallback(() => {
+    callerToneRef.current = new Audio(CallerTone);
+    callerToneRef.current.play().catch(() => "");
+  }, []);
+
+  const stopCallerTone = useCallback(() => {
+    if (callerToneRef.current) {
+      callerToneRef.current.pause();
+      callerToneRef.current.currentTime = 0;
+      callerToneRef.current = null;
+    }
+  }, []);
+
+  const playRingTone = useCallback(() => {
+    ringToneRef.current = new Audio(RingTone);
+    ringToneRef.current.play().catch(() => "");
+  }, []);
+
+  const stopRingTone = useCallback(() => {
+    if (ringToneRef.current) {
+      ringToneRef.current.pause();
+      ringToneRef.current.currentTime = 0;
+      ringToneRef.current = null;
+    }
+  }, []);
 
   const handleVideoCall = useCallback(
     (data: any) => {
@@ -92,11 +122,15 @@ export const CallProvider: React.FC<{ children: React.ReactNode }> = ({
   const handleVideoCallAccept = useCallback(
     (data: { guest: string; self: string }) => {
       const { guest, self } = data;
-      callerTuneRef.current?.pause();
+      stopCallerTone();
       setShowCallerDialog(null);
-      navigate(`/video-call?self=${btoa(self)}&guest=${btoa(guest)}&initiator=${btoa("yes")}`);
+      navigate(
+        `/video-call?self=${btoa(self)}&guest=${btoa(guest)}&initiator=${btoa(
+          "yes"
+        )}`
+      );
     },
-    [setShowCallerDialog, navigate]
+    [setShowCallerDialog, navigate, stopCallerTone]
   );
 
   useEffect(() => {
@@ -139,9 +173,10 @@ export const CallProvider: React.FC<{ children: React.ReactNode }> = ({
               self={self}
               setUser={setShowCallDialog}
               socket={socket}
-              ringTuneRef={ringTuneRef}
               selfSocketRef={selfSocketRef}
               guestSocketRef={guestSocketRef}
+              playRingTone={playRingTone}
+              stopRingTone={stopRingTone}
             />
           )}
           {/* Caller dialog */}
@@ -150,7 +185,8 @@ export const CallProvider: React.FC<{ children: React.ReactNode }> = ({
               callStatus={callStatus}
               user={showCallerDialog}
               handleVideoCallCancelClick={handleVideoCallCancelClick}
-              callerTuneRef={callerTuneRef}
+              playCallerTone={playCallerTone}
+              stopCallerTone={stopCallerTone}
             />
           )}
         </div>
