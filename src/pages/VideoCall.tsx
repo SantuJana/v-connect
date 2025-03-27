@@ -127,7 +127,7 @@ export default function VideoCall() {
       });
 
       // Close the connection
-      peer.peer.close();
+      // peer.peer.close();
     }
   }, []);
 
@@ -144,26 +144,26 @@ export default function VideoCall() {
   const manualEnd = useCallback(() => {
     cleanupPeerConnection();
     manualEndRef.current = true;
-    console.log("$$$$$", manualEndRef.current)
+    console.log("$$$$$", manualEndRef.current);
     navigate(-1);
-  }, [cleanupPeerConnection, navigate])
+  }, [cleanupPeerConnection, navigate]);
 
   const handleVideoCallEnd = useCallback(() => {
     manualEnd();
-    socket?.emit("call:end", {to: guestSocketRef.current})
-  }, [manualEnd, socket])
+    socket?.emit("call:end", { to: guestSocketRef.current });
+  }, [manualEnd, socket]);
 
   useEffect(() => {
-    if (myStream){
+    if (myStream) {
       const audioTrack = myStream?.getAudioTracks()[0];
       if (audioTrack) {
         audioTrack.enabled = micOn;
       }
     }
   }, [myStream, micOn]);
-  
+
   useEffect(() => {
-    if (myStream){
+    if (myStream) {
       const videoTrack = myStream?.getVideoTracks()[0];
       if (videoTrack) {
         videoTrack.enabled = cameraOn;
@@ -211,7 +211,7 @@ export default function VideoCall() {
     handleNegoNeed,
     handleNegoFinal,
     handleStreamRequest,
-    manualEnd
+    manualEnd,
   ]);
 
   useEffect(() => {
@@ -227,14 +227,13 @@ export default function VideoCall() {
   useEffect(() => {
     const guestSocketId = guestSocketRef.current;
     const handleBeforeUnload = () => {
-      if (!manualEndRef.current)
-        cleanupPeerConnection();
+      if (!manualEndRef.current) cleanupPeerConnection();
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
-      if (!manualEndRef.current){
-        socket?.emit("call:end", { to: guestSocketId })
+      if (!manualEndRef.current) {
+        socket?.emit("call:end", { to: guestSocketId });
         cleanupPeerConnection();
       }
       window.removeEventListener("beforeunload", handleBeforeUnload);
@@ -261,34 +260,40 @@ export default function VideoCall() {
       ></video>
       <div className="flex items-center justify-center gap-4 md:gap-6 z-10 w-full bottom-4 text-white absolute">
         {micOn ? (
-          <div className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer border-2 bg-violet-400 ring-red-600">
-            <IoMicOutline size={24} onClick={() => setMicOn(!micOn)} />
+          <div
+            onClick={() => setMicOn(!micOn)}
+            className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer border-2 bg-violet-400 ring-red-600"
+          >
+            <IoMicOutline size={24} />
           </div>
         ) : (
-          <div className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer bg-red-600">
-            <IoMicOffOutline size={24} onClick={() => setMicOn(!micOn)} />
+          <div
+            onClick={() => setMicOn(!micOn)}
+            className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer bg-red-600"
+          >
+            <IoMicOffOutline size={24} />
           </div>
         )}
         {cameraOn ? (
-          <div className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer border-2 bg-violet-400 ring-red-600">
-            <IoVideocamOutline
-              size={24}
-              onClick={() => setCameraOn(!cameraOn)}
-            />
+          <div
+            onClick={() => setCameraOn(!cameraOn)}
+            className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer border-2 bg-violet-400 ring-red-600"
+          >
+            <IoVideocamOutline size={24} />
           </div>
         ) : (
-          <div className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer bg-red-600">
-            <IoVideocamOffOutline
-              size={24}
-              onClick={() => setCameraOn(!cameraOn)}
-            />
+          <div
+            onClick={() => setCameraOn(!cameraOn)}
+            className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer bg-red-600"
+          >
+            <IoVideocamOffOutline size={24} />
           </div>
         )}
-        <div className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer bg-red-600">
-          <MdOutlineCallEnd
-            size={24}
-            onClick={handleVideoCallEnd}
-          />
+        <div
+          onClick={handleVideoCallEnd}
+          className="flex justify-center items-center h-12 w-12 rounded-full cursor-pointer bg-red-600"
+        >
+          <MdOutlineCallEnd size={24} />
         </div>
       </div>
     </div>
