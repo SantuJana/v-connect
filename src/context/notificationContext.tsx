@@ -98,6 +98,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
         {msgArray.map((notice) => (
           <>
             <div
+              key={notice.id}
               className={`rounded bg-white p-2 ring-1 flex items-center mb-1 ${
                 ringClass[notice.type]
               }`}

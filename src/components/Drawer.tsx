@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import { AppContext, useApp } from "../context/appContext";
 import useUserStore from "../store/user.store";
 import { imagekitEndpoint } from "../constants";
+import { MdOutlineSupervisorAccount } from "react-icons/md";
 
 interface DrawerProps {
   visibility: boolean;
@@ -70,6 +71,20 @@ export default function Drawer({ visibility, toggle }: DrawerProps) {
               <p className="font-medium">Home</p>
             </NavLink>
             <NavLink
+              to={"/friends"}
+              className={({ isActive }) =>
+                `flex items-center gap-2 p-2 ${
+                  isActive
+                    ? "text-violet-200 bg-violet-700 rounded-lg"
+                    : "text-violet-700 hover:text-violet-200 hover:bg-violet-700 hover:rounded-lg"
+                }`
+              }
+              onClick={toggleDrawer}
+            >
+              <MdOutlineSupervisorAccount size={20} className="fill-blue-600" />
+              <p className="font-medium">Friends</p>
+            </NavLink>
+            {/* <NavLink
               to={"/favorites"}
               className={({ isActive }) =>
                 `flex items-center gap-2 p-2 ${
@@ -82,7 +97,7 @@ export default function Drawer({ visibility, toggle }: DrawerProps) {
             >
               <IoHeart size={20} className="fill-red-600" />
               <p className="font-medium">Favorites</p>
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to={"/chats"}
               className={({ isActive }) =>

@@ -13,26 +13,36 @@ import Favorites from "./pages/Favorites";
 import Chats from "./pages/Chats";
 import Register from "./pages/Register";
 import VideoCall from "./pages/VideoCall";
+import Friends from "./pages/Friends";
+import { LoaderProvider } from "./context/loaderContext";
 // import Call from "./pages/Call";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const client = new QueryClient();
 
 function App() {
   return (
-    <NotificationProvider>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="" element={<Landing />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="landing" element={<Home />} />
-          <Route path="room/:roomId" element={<RoomPage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/chats" element={<Chats />} />
-          <Route path="/video-call" element={<VideoCall />} />
-        </Route>
-      </Routes>
-    </NotificationProvider>
+    <QueryClientProvider client={client}>
+      <NotificationProvider>
+        <LoaderProvider>
+          <Routes>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="" element={<Landing />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="landing" element={<Home />} />
+              <Route path="room/:roomId" element={<RoomPage />} />
+              <Route path="/friends" element={<Friends />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/chats" element={<Chats />} />
+              <Route path="/video-call" element={<VideoCall />} />
+            </Route>
+          </Routes>
+        </LoaderProvider>
+      </NotificationProvider>
+    </QueryClientProvider>
   );
 }
 

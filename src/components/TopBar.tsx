@@ -43,13 +43,13 @@ export default function TopBar({ toggleDrawer }: TopBarProps) {
         <h3 className="text-violet-700 text-lg sm:text-2xl font-semibold sm:font-bold">
           Vconnect
         </h3>
-        <input
+        {/* <input
           type="text"
           name="search"
           id="search"
           placeholder="Search"
           className="hidden sm:flex px-5 py-2 rounded-full outline-violet-700 text-slate-700 shadow-md"
-        />
+        /> */}
         <IoNotificationsOutline className="text-2xl sm:text-3xl text-slate-700 cursor-pointer" />
         <div className="relative">
           <IoEllipsisVertical

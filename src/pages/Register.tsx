@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BannerLogo from "../assets/color-trans.svg";
 import VerticalLogo from "../assets/color-trans-vertical.svg";
 import Input from "../components/Input";
@@ -10,6 +10,9 @@ import {
 } from "../context/notificationContext";
 import axios, { AxiosError } from "axios";
 import { apiUrl } from "../constants";
+import GenderSelection from "../components/GenderSelection";
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../service/auth.service";
 
 export default function Register() {
   const [formData, setFormData] = useState<any>({
@@ -17,45 +20,54 @@ export default function Register() {
     password: "",
     dob: "",
     name: "",
+    gender: null,
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { warn, success, failed } = useNotification() as NotificationContext;
   const navigate = useNavigate();
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
+  const {mutate, isError, error, isPending, isSuccess, data} = useMutation({
+    mutationKey: ['register'],
+    mutationFn: (data) => register(data),
+  })
+
+  const handleFormSubmit =  useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.password || !formData.dob) {
+    if (!formData.email || !formData.password || !formData.gender) {
       warn("Please fill all the field");
     } else if (formData.password?.length < 5) {
       warn("Password is too sort");
     } else if (formData.password !== formData.conPassword) {
       warn("Confirm password did not matched");
     } else {
-      try {
-        setIsLoading(true);
-        const response = await axios.post(`${apiUrl}/auth/register`, formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.status === 200) {
-          success("Account created successfully");
-          navigate("/login");
-        }
-      } catch (error) {
-        const axiosError = error as AxiosError;
-        // @ts-ignore
-        failed(axiosError.response?.data?.msg || "Something went wrong");
-      } finally {
-        setIsLoading(false);
-      }
+      mutate(formData);
     }
-  };
+  }, [formData, mutate, warn]);
+
   const handleFormDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData: any) => ({ ...prevData, [name]: value }));
   };
+
+  const handleGenderChange = useCallback(
+    (val: "Male" | "Female") => {
+      setFormData((prevData: any) => ({ ...prevData, gender: val }));
+    },
+    [setFormData]
+  );
+
+  useEffect(() => {
+    if (isError){
+      failed((error as any)?.response?.data?.error)
+    }
+  }, [isError, error, failed])
+
+  useEffect(() => {
+    if (data) {
+      success(data?.data?.msg);
+      navigate("/login");
+    }
+  }, [isSuccess, data, success])
 
   return (
     <div className="relative h-screen w-screen bg-violet-100">
@@ -117,21 +129,25 @@ export default function Register() {
                 />
               </div>
               <div className="mb-3.5">
-                <Input
+                <GenderSelection
+                  selectedGender={formData.gender}
+                  onSelectGender={handleGenderChange}
+                />
+                {/* <Input
                   type="date"
                   placeholder="Date of birth"
                   name="dob"
                   value={formData.dob}
                   width="100%"
                   onChange={handleFormDataChange}
-                />
+                /> */}
               </div>
               <div className={`mt-2 mb-3.5`}>
                 <Button
                   type="submit"
                   title="Signup"
                   width="100%"
-                  loading={isLoading}
+                  loading={isPending}
                 />
               </div>
               <div className="flex gap-1">
